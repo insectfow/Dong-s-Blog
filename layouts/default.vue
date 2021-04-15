@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <Nuxt />
-      <div class="back-button" v-if="$route.path !== '/'" @click="$router.go(-1)">
+      <div class="back-button" v-if="$route.path !== '/'" @click="backPage">
           <i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i>
       </div>
   </div>
@@ -9,6 +9,12 @@
 
 <script>
 export default {
+  methods: {
+    backPage(){
+      // console.log(this.$route);
+      this.$router.go(-1);
+    }
+  }
   // async mounted(){
   //   await this.$nextTick(() => {
   //     this.$nuxt.$loading.start()

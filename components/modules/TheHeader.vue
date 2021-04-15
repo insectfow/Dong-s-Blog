@@ -2,7 +2,8 @@
   <header id="header">
       <h3 class="header-title" @click="$router.push('/')">{{ title }}</h3>
       <!-- header nav -->
-      <lazy-modules-the-header-nav />
+      <modules-search-bar />
+      <!-- <lazy-modules-the-header-nav /> -->
   </header>
 </template>
 
@@ -22,7 +23,7 @@ export default {
 <style>
 #header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 100%;
     padding: 0 20px;
@@ -37,13 +38,14 @@ export default {
 }
 
 #header .header-title {
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 12px;
-    transform: translateX(-50%);
+    transform: translateX(-50%); */
     font-size: 1.4em;
     height: 1.4em;
     color: #000;
     text-transform: uppercase;
+    margin-right: 20px;
 }
 </style>

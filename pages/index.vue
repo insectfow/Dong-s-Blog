@@ -1,7 +1,7 @@
 <template>
   <div class="home-page">
     <h1 class="home-title">Dong's Blog</h1>
-    <div class="home-search-wrap"></div>
+    <modules-search-bar />
     <section class="home-contents">
       <nuxt-link to="/news" class="image-1">
         <span>news</span>
@@ -9,11 +9,8 @@
       <nuxt-link to="/todo" class="image-2">
         <span>todo</span>
       </nuxt-link>
-      <nuxt-link to="/todo" class="image-3">
-        <span>todo</span>
-      </nuxt-link>
-      <nuxt-link to="/todo" class="image-4">
-        <span>todo</span>
+      <nuxt-link to="/nnew" class="image-3">
+        <span>naver</span>
       </nuxt-link>
     </section>
     
@@ -22,7 +19,6 @@
 
 <script>
 export default {
-
 }
 </script>
 
@@ -45,11 +41,25 @@ export default {
   width: 20rem;
   height: 2rem;
   border-radius: 50px;
-  box-shadow: 0 0 10px rgba(0,0,0,.3);
+  box-shadow: 0 0 5px rgba(0,0,0,.3);
   background: #fff;
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
+  padding: 5px 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.home-search-wrap input {
+  margin-left: 10px;
+  width: calc(100% - 40px);
+  height: 24px;
+  box-sizing: border-box;
+  border: none;
+  font-size: 1rem;
 }
 .home-contents {
+  margin-top: 50px;
   width: 30rem;
   height: 20rem;
   display: flex;

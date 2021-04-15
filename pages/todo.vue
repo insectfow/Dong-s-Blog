@@ -1,7 +1,7 @@
 <template>
     <main class="main-page">
         <div class="todo-list-wrap">
-            <h3 @click="$router.push('/')" >To Do List</h3>
+            <h3>To Do List</h3>
             <div class="add-list">
                 <input type="text" class="input-list" autocomplete="off" placeholder="Add New Task" v-model="text" @keyup.enter="newItem">
                 <button type="submit" class="submit-list" @click="newItem" title="add Task">
@@ -53,14 +53,6 @@ export default {
 </script>
 
 <style>
-
-.move-enter-active, .move-leave-active {
-  
-}
-.move-enter, .move-leave-to {
-    opacity: 0;
-}
-
 .main-page {
     position: relative;
     width: 100%;

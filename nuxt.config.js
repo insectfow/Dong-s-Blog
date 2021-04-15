@@ -34,7 +34,7 @@ export default {
     // 컴포넌트 자동으로 가져오기
     // components: true // true or false
     router: {
-        base: '/'
+        routeNameSplitter: '/'
     },
     server : {
         host: '0.0.0.0',
