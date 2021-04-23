@@ -37,7 +37,7 @@ export const actions = {
     },
     async fetchNews(context, data){
         if(!data){
-            data = 'samsung';
+            data = '코인';
         }
         console.log('검색한 데이터:', data);
         await this.$axios.get(`http://127.0.0.1:3000/search/news?query=${data}` ).then( res => {
