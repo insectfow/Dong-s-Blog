@@ -37,7 +37,7 @@ export const actions = {
     },
     async fetchNews(context, data){
         if(!data){
-            data = '코인';
+            data = '일론 머스크';
         }
         console.log('검색한 데이터:', data);
         await this.$axios.get(`http://127.0.0.1:3000/search/news?query=${data}` ).then( res => {
