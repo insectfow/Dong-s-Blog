@@ -36,10 +36,10 @@ export default {
     router: {
         routeNameSplitter: '/'
     },
-    // server : {
-    //     host: '0.0.0.0',
-    //     port: '8085'
-    // },
+    server : {
+        // host: '0.0.0.0',
+        // port: '8085'
+    },
     components: {
         dirs: [
             '~/components'
@@ -71,14 +71,17 @@ export default {
     // },
     // serverMiddleware : [ '~/api/index.js'],
     modules: [
-        '@nuxtjs/axios'
+        '@nuxtjs/axios', '@nuxtjs/proxy'
     ],
     css: [
         '@/assets/css/reset.css'
     ],
     serverMiddleware: [
         '@/api/index.js'
-    ]
+    ],
+    proxy: {
+        '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com'
+    }
     // io: {
 
     // }
