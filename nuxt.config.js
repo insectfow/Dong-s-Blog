@@ -36,10 +36,10 @@ export default {
     router: {
         routeNameSplitter: '/'
     },
-    server : {
-        host: '0.0.0.0',
-        port: '8085'
-    },
+    // server : {
+    //     host: '0.0.0.0',
+    //     port: '8085'
+    // },
     components: {
         dirs: [
             '~/components'
@@ -49,7 +49,7 @@ export default {
     generate: {
         dir: 'generate'
     },
-    target: 'static', // 정적 생성 사이트 배포
+    // target: 'static', // 정적 생성 사이트 배포
     // ssr: true,
 
     // manifest: {
