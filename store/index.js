@@ -41,7 +41,7 @@ export const actions = {
         }
         console.log('검색한 데이터:', data);
        
-        await this.$axios.get(`api/search/news?query=${data}` ).then( res => {
+        await this.$axios.get(`api/search/news?query=${data}`).then( res => {
            context.commit('setNaverNews', res.data, data);
         } ).catch( err => {
             console.error(err);

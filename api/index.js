@@ -33,9 +33,9 @@ app.get('/search/blog', function (req, res) {
 
 app.get('/search/news', function (req, res) {
     console.log(req.query);
-    var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI(req.query.query);
+    var api_url = `https://openapi.naver.com/v1/search/news?query=${encodeURIComponent(req.query.query)}`;
     var options = {
-        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret, 'Access-Control-Allow-Origin': '*'}
+        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
     };
     axios.get(api_url, options).then( respone => {
         if(respone.status === 200){
