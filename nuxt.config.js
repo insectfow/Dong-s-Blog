@@ -79,8 +79,11 @@ export default {
     serverMiddleware: [
         '@/api/index.js'
     ],
+    axios: {
+        proxy: true
+    },
     proxy: {
-        '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com'
+        '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com:38044/api'
     }
     // io: {
 
