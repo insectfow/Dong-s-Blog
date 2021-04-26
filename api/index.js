@@ -8,7 +8,9 @@ var client_secret = 'xen5pAxoTE';
 var cors = require('cors')
 app.use(cors());
 
-
+app.get('/', function(req, res) {
+    res.send('API root')
+  })
 
 app.get('/search/blog', function (req, res) {
     console.log(req.query);
@@ -33,7 +35,7 @@ app.get('/search/news', function (req, res) {
     console.log(req.query);
     var api_url = 'https://openapi.naver.com/v1/search/news?query=' + encodeURI(req.query.query);
     var options = {
-        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret, 'Access-Control-Allow-Origin': '*'}
     };
     axios.get(api_url, options).then( respone => {
         if(respone.status === 200){
@@ -48,6 +50,7 @@ app.get('/search/news', function (req, res) {
     
 });
 
-app.listen(3000, function () {
-    console.log('http://127.0.0.1:3000/search/blog?query=검색어 app listening on port 3000!');
-});
+module.exports = {
+    path: '/api',
+    handler: app
+}

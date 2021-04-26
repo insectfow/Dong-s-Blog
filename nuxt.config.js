@@ -69,12 +69,14 @@ export default {
     //       }
     //     ]
     // },
-    // serverMiddleware : [ '~/api/index.js'],
     modules: [
         '@nuxtjs/axios'
     ],
     css: [
         '@/assets/css/reset.css'
+    ],
+    serverMiddleware: [
+        '@/api/index.js'
     ]
     // io: {
 
