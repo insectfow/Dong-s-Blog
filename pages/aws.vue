@@ -30,6 +30,9 @@ export default {
 </script>
 
 <style>
+.aws-note:first-child {
+    margin-top: 0;
+}
 .aws-note {
     width: 1200px;
     margin: 20px auto;
@@ -55,5 +58,15 @@ export default {
 .aws-note > ul > li {
     font-size: 0.8rem;
     margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    .aws-note {
+        width: 100%;
+
+    }
+    .aws-page {
+        padding: 20px;
+    }
 }
 </style>

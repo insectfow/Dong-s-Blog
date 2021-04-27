@@ -1,6 +1,6 @@
 <template>
   <header id="header">
-      <h3 class="header-title" @click="$router.push('/')">{{ title }}</h3>
+      <!-- <h3 class="header-title" @click="$router.push('/')">{{ title }}</h3> -->
       <!-- header nav -->
       <modules-search-bar />
       <!-- <lazy-modules-the-header-nav /> -->

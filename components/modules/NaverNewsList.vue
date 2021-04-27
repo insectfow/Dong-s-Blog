@@ -8,9 +8,9 @@
                 <ul>
                     <li>
                         <a :href="list.link" target="_blank" rel="noreferrer noopener">
-                            <h3 v-html="list.title"></h3>
-                            <p v-html="list.description"></p>
-                            <p v-html="list.pubDate"></p>
+                            <h3 v-html="list.title" ></h3>
+                            <p v-html="list.description" class="overText"></p>
+                            <p v-html="list.pubDate" class="overText"></p>
                         </a>
                     </li>
                 </ul>    
@@ -50,6 +50,11 @@ export default {
 }
 .slide-enter, .slide-leave-to {
     opacity: 0;
+}
+
+.overText {
+    width: 100%;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 
 .pending {

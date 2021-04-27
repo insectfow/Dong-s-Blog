@@ -44,7 +44,7 @@ input:focus {
 
 .back-button {
   position: fixed;
-  top: 20px;
+  top: 16px;
   left: 20px;
   z-index: 11;
   cursor: pointer;
