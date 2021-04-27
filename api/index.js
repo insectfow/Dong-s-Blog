@@ -8,10 +8,6 @@ var client_secret = 'xen5pAxoTE';
 var cors = require('cors')
 app.use(cors());
 
-app.get('/', function(req, res) {
-    res.send('API root')
-  })
-
 app.get('/search/blog', function (req, res) {
     console.log(req.query);
     var api_url = `https://openapi.naver.com/v1/search/blog?query=${req.query.query}`;
@@ -54,3 +50,6 @@ module.exports = {
     path: '/api',
     handler: app
 }
+
+app.listen(PORT, HOST);
+console.log(`Running on http://${HOST}:${PORT}`);
