@@ -51,7 +51,7 @@ export default {
     },
     // target: 'static', // 정적 생성 사이트 배포
     // ssr: true,
-    mode: universal,
+    mode: 'universal',
     // manifest: {
     //     name: 'Dong_Blog',
     //     short_name: 'Dong Blog',
