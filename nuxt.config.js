@@ -78,7 +78,8 @@ export default {
         '@/assets/css/reset.css'
     ],
     serverMiddleware: [
-        '@/api/index.js'
+        'redirect-ssl',
+        { path: '/api', handler: '@/api/index.js' },
     ],
     axios: {
         // baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
