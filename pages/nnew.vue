@@ -3,8 +3,7 @@
     <lazy-modules-the-header :title="$route.name" />
     <div class="contents">
       <!-- <lazy-modules-hacker-news-list class="window" /> -->
-      <div v-if="$store.state.nNewList === []">
-        데이터 없음
+      <div v-html="$store.state.nNewList">
       </div>
       <lazy-modules-naver-news-list class="window2" />
     </div>
