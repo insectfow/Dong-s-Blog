@@ -78,7 +78,6 @@ export default {
         '@/assets/css/reset.css'
     ],
     serverMiddleware: [
-        'redirect-ssl',
         { path: '/api', handler: '@/api/index.js' },
     ],
     axios: {
