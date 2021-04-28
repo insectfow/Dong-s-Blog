@@ -51,8 +51,8 @@ export default {
         dir: 'generate'
     },
     target: 'static', // 정적 생성 사이트 배포
-    // ssr: true,
-    mode: 'universal',
+    ssr: true,
+    // mode: 'universal',
     // manifest: {
     //     name: 'Dong_Blog',
     //     short_name: 'Dong Blog',
