@@ -80,9 +80,9 @@ export default {
     serverMiddleware: [
         { path: '/api', handler: '@/api/index.js' },
     ],
-    axios: {
-        baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
-    },
+    // axios: {
+    //     baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
+    // },
     // proxy: {
     //     '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com:8085/api'
     // }

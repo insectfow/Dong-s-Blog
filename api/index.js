@@ -8,9 +8,14 @@ var client_secret = 'xen5pAxoTE';
 var cors = require('cors')
 app.use(cors());
 
+
+app.get('/', function (req, res) {
+    res.send('API root');
+})
+
 app.get('/search/blog', function (req, res) {
     console.log(req.query);
-    var api_url = `https://openapi.naver.com/v1/search/blog?query=${req.query.query}`;
+    var api_url = `https://openapi.naver.com/v1/search/blog?query=${encodeURIComponent(req.query.query)}`;
     var options = {
         headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
     };
