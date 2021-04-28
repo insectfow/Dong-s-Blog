@@ -12,7 +12,7 @@ export default {
   methods: {
     backPage(){
       // console.log(this.$route);
-      this.$router.go(-1);
+      this.$router.go('/');
     }
   }
   // async mounted(){

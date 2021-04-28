@@ -50,9 +50,10 @@ export default {
     generate: {
         dir: 'generate'
     },
-    target: 'static', // 정적 생성 사이트 배포
-    ssr: true,
-    // mode: 'universal',
+    // target: 'static', // 정적 생성 사이트 배포
+    target: 'server',
+    // ssr: true,
+    mode: 'universal',
     // manifest: {
     //     name: 'Dong_Blog',
     //     short_name: 'Dong Blog',
@@ -80,12 +81,12 @@ export default {
     serverMiddleware: [
         { path: '/api', handler: '@/api/index.js' },
     ],
-    axios: {
-        baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
-    },
-    proxy: {
-        '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com:8085/api'
-    }
+    // axios: {
+    //     baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
+    // },
+    // proxy: {
+    //     '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com:8085/api'
+    // }
     // io: {
 
     // }
