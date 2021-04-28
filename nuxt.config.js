@@ -50,7 +50,7 @@ export default {
     generate: {
         dir: 'generate'
     },
-    // target: 'static', // 정적 생성 사이트 배포
+    target: 'static', // 정적 생성 사이트 배포
     // ssr: true,
     mode: 'universal',
     // manifest: {
@@ -81,7 +81,7 @@ export default {
         '@/api/index.js'
     ],
     axios: {
-        baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
+        // baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
     },
     // proxy: {
     //     '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com:8085/api'
