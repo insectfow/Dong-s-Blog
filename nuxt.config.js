@@ -38,7 +38,7 @@ export default {
     },
     server : {
         host: '0.0.0.0',
-        port: '8085'
+        port: '3000'
     },
     components: {
         dirs: [
@@ -83,9 +83,19 @@ export default {
     // axios: {
     //     baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
     // },
-    // proxy: {
-    //     '/api' : 'https://master.d9ypdpedk0pao.amplifyapp.com:8085/api'
-    // }
+    proxy: {
+        '/api' : {
+            target : 'http://13.125.22.192:3000/api',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/api': ''
+            }
+        }
+    },
+    outputDir: 'api/',
+    axios: {
+        proxy: true
+    }
     // io: {
 
     // }

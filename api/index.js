@@ -5,12 +5,11 @@ var axios = require('axios');
 var app = express();
 var client_id = 'zi7p6L6pecPgRkFLMKhn';
 var client_secret = 'xen5pAxoTE';
-var cors = require('cors')
+var cors = require('cors');
 app.use(cors());
 
-
-app.get('/', function (req, res) {
-    res.send('API root');
+app.get('/', (req, res) => {
+    res.send('안녕');
 })
 
 app.get('/search/blog', function (req, res) {

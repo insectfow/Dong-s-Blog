@@ -15,11 +15,10 @@
       <nuxt-link to="/aws" class="image-4">
         <span>AWS</span>
       </nuxt-link>
+      <nuxt-link to="/upload" class="image-5">
+        <span>upload</span>
+      </nuxt-link>
     </section>
-    
-    
-
-
   </div>
 </template>
 
@@ -119,6 +118,13 @@ export default {
 }
 .image-4 {
   background: url('https://images.unsplash.com/photo-1599153066743-08810dc8a419?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YXdzfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.image-5 {
+  background: url('https://images.unsplash.com/photo-1619266465172-02a857c3556d?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
