@@ -18,6 +18,9 @@
       <nuxt-link to="/upload" class="image-5">
         <span>upload</span>
       </nuxt-link>
+      <nuxt-link to="/croppie" class="image-6">
+        <span>croppie</span>
+      </nuxt-link>
     </section>
   </div>
 </template>
@@ -125,6 +128,13 @@ export default {
 
 .image-5 {
   background: url('https://images.unsplash.com/photo-1619266465172-02a857c3556d?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.image-6 {
+  background: url('https://images.unsplash.com/photo-1620740517124-b2985c235871?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3MXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

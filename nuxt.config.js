@@ -95,7 +95,10 @@ export default {
     outputDir: '../static/api/',
     axios: {
         proxy: true
-    }
+    },
+    plugins: [
+        { src: '~/plugins/croppie.js', ssr: false }
+    ]
     // io: {
 
     // }
