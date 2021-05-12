@@ -78,7 +78,7 @@ export default {
         '@/assets/css/reset.css'
     ],
     serverMiddleware: [
-        { path: '/api', handler: '@/api/index.js' },
+        { path: '/api', handler: '@/static/api/index.js' },
     ],
     // axios: {
     //     baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
@@ -92,7 +92,7 @@ export default {
             }
         }
     },
-    outputDir: 'api/',
+    outputDir: '../static/api/',
     axios: {
         proxy: true
     }
