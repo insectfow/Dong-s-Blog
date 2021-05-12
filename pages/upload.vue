@@ -227,7 +227,7 @@ export default {
 
 <style>
     .w600 {
-        width: 1800px;
+        width: calc(100vw - 100px);
         margin: 0 auto;
         padding: 20px;
     }
@@ -324,5 +324,13 @@ export default {
         padding: 20px 40px;
         background: #fff;
         box-shadow: 0 0 10px rgba(0,0,0,.2);
+    }
+    @media screen and (min-width: 600px) {
+        .w600 {
+            width: 100%;
+            margin: 50px auto 0;
+            padding: 20px;
+        }
+        
     }
 </style>
