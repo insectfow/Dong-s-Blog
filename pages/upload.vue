@@ -315,6 +315,7 @@ export default {
         bottom: 0;
         right: 0;
         cursor: pointer;
+        z-index: 11;
     }
     .alert > p {
         position: absolute;
