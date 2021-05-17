@@ -21,6 +21,9 @@
       <nuxt-link to="/croppie" class="image-6">
         <span>croppie</span>
       </nuxt-link>
+       <nuxt-link to="/class" class="image-7">
+        <span>class</span>
+      </nuxt-link>
     </section>
   </div>
 </template>
@@ -135,6 +138,12 @@ export default {
 
 .image-6 {
   background: url('https://images.unsplash.com/photo-1620740517124-b2985c235871?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3MXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.image-7 {
+  background: url('https://images.unsplash.com/photo-1620805368151-8d5ce3a92d3f?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

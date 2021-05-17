@@ -1,17 +1,30 @@
 <template>
   <div class="croppie-wrap">
       <div class="upload">
+            <!-- upload -->
             <div class="upload-input">
                 <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/>
                 <button class="upload-button" @click="onClickImageUpload">이미지 업로드</button>
-                <span style="font-size: 14px">크롭 사이즈 : {{width + 'px X ' + height + 'px'}}</span>  
+                <p style="font-size: 14px">크롭 사이즈 : {{this.$store.state.fileForm[numbers].width + 'px X ' + this.$store.state.fileForm[numbers].height + 'px'}}</p>
+                <input type="number" v-model="numbers" min="0" max="14"><p style="font-size: 11px">{{this.$store.state.fileForm[numbers]}}</p>  
             </div>
-            <vue-croppie v-if="isCropped" ref="croppieRef" :enableResize="false" :boundary="{ width: 400, height: 400}" :viewport="{ width: width, height: height, 'type':'square' }">
+            <!--// upload -->
+            <vue-croppie v-if="isCropped" ref="croppieRef" :enableResize="false" :boundary="{ width: 800, height: 800}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">
             </vue-croppie>
+
             <!-- the result -->
-            <img v-if="isCropped" :src="cropped">
+            <img v-show="isCropped" :src="cropped">
+            <ul v-if="images">
+                <li>name : {{images.name}}</li>
+                <li>size : {{images.size}}</li>
+                <li>type : {{images.type}}</li>
+                <li>url : {{images.imageUrl}}</li>
+            </ul>
             <button v-if="isCropped" @click="crop" class="upload-button">크롭하기</button>
             <a class="download-button" v-if="images" :href="images.imageUrl" download>다운로드</a>
+            <!--// the result -->
+
+            <!-- info -->
             <ul class="info-wrap">
                 <li><strong>crop format type</strong><br> 'jpeg' , 'png', 'webp'만 가능함.</li>
                 <li><strong>quality</strong><br> 이미지 품질 조절 (0 ~ 1) </li>
@@ -19,10 +32,13 @@
                 <li><strong>boundary</strong><br>크롭 박스 영역 크기 조절 ex) :boundary="{ width: 가로사이즈, height: 세로사이즈}"</li>
                 <li><strong>viewprot</strong><br>크롭 할 영역 크기 조절, type은 square는 사각형, circle은 원형 ex) :viewport="{ width: 가로사이즈, height: 세로사이즈, 'type':'square' }"</li>
             </ul>
+            <!--// info -->
       </div>
+      <!-- popup -->
       <div class="alert" v-if="alert" @click.prevent="alert = false">
         <p v-html="alertText"></p>
-    </div>
+      </div>
+      <!--// popup -->
   </div>
 </template>
 
@@ -41,7 +57,8 @@ export default {
             maxSize : 1024 * 1024 * 5,
             images: null,
             alert: false,
-            alertText: ''
+            alertText: '',
+            numbers: 0
         }
     },
     methods: {
@@ -79,45 +96,59 @@ export default {
             } else {
                 this.alert = false;
             }
-                
-                
-            
-
             if (this.images){
                 this.images = null;
             }
+
             
+             var reader =  new FileReader();
+             reader.onload = async (e) => {
+                const image =  new Image();
+                image.src = e.target.result;
+                image.onload = (imageEvent) => {
+                    var w = image.width;
+                    var h = image.height;
+                    console.log(w,h);
+                    if(w < this.$store.state.fileForm[this.numbers].width || h < this.$store.state.fileForm[this.numbers].height) {
+                        this.isCropped = false;
+                        this.croppieImage = '';
+                        this.cropped = null;
+                        this.images = null;
+                        this.alert = true;
+                        this.alertText = `width가 ${this.$store.state.fileForm[this.numbers].width}px 보다 작고, height가 ${this.$store.state.fileForm[this.numbers].height}px 보다 작다.`;
+                        return;
+                    } 
+                }
 
-
-            var reader = new FileReader();
-            reader.onload = e => {
-                this.$refs.croppieRef.bind({
+                
+                await this.$refs.croppieRef.bind({
                     url: e.target.result
                 });
-                console.log(files[0]);
-               
+                
+                
             };
-            
-
             reader.readAsDataURL(files[0]);
             this.isCropped = true;
+            
+           
+            
+
+           
         },
         crop() {
             // Options can be updated.
             // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
             let options = {
                 type: 'base64',
-                size: { width: this.width, height: this.height },
+                size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
                 format: 'jpeg',
             };
             this.$refs.croppieRef.result(options, output => {
             this.cropped = this.croppieImage = output;
                 this.images = this.dataURLToBlob(output)
                 this.images.imageUrl = URL.createObjectURL(this.images);
-            });
-            
-
-                      
+                console.log(this.images);
+            });        
         },
         // dataURL을 file 객체로 변환 로직.
         dataURLToBlob(dataURL) {
@@ -149,8 +180,25 @@ export default {
             const blob = new Blob([uInt8Array], {
                 type: contentType
             });
-            return new File([blob], '21222.jpg', { type: contentType });
+            return new File([blob], this.imageFileName(this.$store.state.fileForm[this.numbers]), { type: contentType });
         },
+        imageFileName(data){
+            if (!data) return;
+            const str = data.data;
+            let re_str;
+            re_str = str
+            .replace(/campaignCode/g, this.$store.state.campaignCode)
+            .replace(/influencerId/g, this.$store.state.influencerId)
+            .replace(/clientId/g, this.$store.state.clientId)
+            .replace(/brandIdx/g, this.$store.state.brandIdx)
+            .replace(/highClassIdx/g, this.$store.state.highClassIdx)
+            .replace(/contentIdx/g, this.$store.state.contentIdx)
+            .replace(/issueIdx/g, this.$store.state.issueIdx)
+            .replace(/middleClassIdx/g, this.$store.state.middleClassIdx);
+
+            return re_str + '.jpg';
+        }
+        
     }
 }
 </script>
