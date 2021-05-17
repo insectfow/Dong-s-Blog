@@ -5,32 +5,37 @@
             <div class="upload-input">
                 <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/>
                 <button class="upload-button" @click="onClickImageUpload">이미지 업로드</button>
-                <p style="font-size: 14px">크롭 사이즈 : {{this.$store.state.fileForm[numbers].width + 'px X ' + this.$store.state.fileForm[numbers].height + 'px'}}</p>
-                <input type="number" v-model="numbers" min="0" max="14"><p style="font-size: 11px">{{this.$store.state.fileForm[numbers]}}</p>  
+                <input type="number" v-model="numbers" min="0" max="14" >
             </div>
             <!--// upload -->
-            <vue-croppie v-if="isCropped" ref="croppieRef" :enableResize="false" :boundary="{ width: 800, height: 800}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">
-            </vue-croppie>
-
+            <div class="crop-wrap wd600">
+                <h4 v-if="isCropped">이미지 미리보기 <button v-if="isCropped" @click="crop" class="upload-button">크롭하기</button></h4>
+                <vue-croppie  v-if="isCropped" ref="croppieRef" :enableResize="false" :boundary="{ width: 600, height: 700}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">
+                </vue-croppie>
+            </div>
+            
+            
             <!-- the result -->
-            <img v-show="isCropped" :src="cropped">
-            <ul v-if="images">
-                <li>name : {{images.name}}</li>
-                <li>size : {{images.size}}</li>
-                <li>type : {{images.type}}</li>
-                <li>url : {{images.imageUrl}}</li>
-            </ul>
-            <button v-if="isCropped" @click="crop" class="upload-button">크롭하기</button>
-            <a class="download-button" v-if="images" :href="images.imageUrl" download>다운로드</a>
+            <div class="wd600 wd601">
+                <h4 v-if="isCropped">크롭한 이미지 미리보기 <a class="download-button" v-if="images" :href="images.imageUrl" :download="images.name">다운로드</a></h4>
+                <div class="wd600 flex" v-if="isCropped">
+                    <img v-show="isCropped" :src="cropped">
+                </div>
+            </div>
+            
             <!--// the result -->
 
             <!-- info -->
             <ul class="info-wrap">
-                <li><strong>crop format type</strong><br> 'jpeg' , 'png', 'webp'만 가능함.</li>
-                <li><strong>quality</strong><br> 이미지 품질 조절 (0 ~ 1) </li>
-                <li><strong>enableResize</strong><br>뷰포트 영역 크기 조정 활성화 (true, false)</li>
-                <li><strong>boundary</strong><br>크롭 박스 영역 크기 조절 ex) :boundary="{ width: 가로사이즈, height: 세로사이즈}"</li>
-                <li><strong>viewprot</strong><br>크롭 할 영역 크기 조절, type은 square는 사각형, circle은 원형 ex) :viewport="{ width: 가로사이즈, height: 세로사이즈, 'type':'square' }"</li>
+                
+                
+                <li><strong>크롭 사이즈 (가로 X 세로)</strong><br> {{this.$store.state.fileForm[numbers].width + 'px X ' + this.$store.state.fileForm[numbers].height + 'px'}}</li>
+                <li><strong>this.$store.state.fileForm[numbers]</strong><br> {{this.$store.state.fileForm[numbers]}}</li>
+                <li><strong>crop file</strong><br><ul v-if="images">
+                    <li>name : {{images.name}}</li>
+                <li>size : {{images.size}}</li>
+                <li>type : {{images.type}}</li>
+                <li>url : {{images.imageUrl}}</li></ul></li>
             </ul>
             <!--// info -->
       </div>
@@ -205,8 +210,47 @@ export default {
 
 <style>
 .croppie-wrap {
-    width: 1200px;
+    width: 1600px;
     margin: 0 auto;
+    
+}
+.upload {
+    display: flex;
+    flex-wrap: wrap;
+}
+.wd600 {
+    width: 700px;
+}
+.wd601 {
+    width: 700px;
+    
+    margin-left: 20px;
+}
+.flex {
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    height: 700px;
+}
+.flex img {
+    box-shadow: 0 0 10px rgba(0, 0,0, .2);
+}
+h4 {
+    margin-bottom: 20px !important;
+}
+.upload-input {
+    width: 100%;
+    border-bottom: 1px solid #000;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+
+.upload-button {
+    margin: 0 !important;
 }
 .info-wrap {
     position: fixed;
@@ -234,5 +278,8 @@ export default {
     box-sizing: border-box;
     font-size: 14px;
     border-radius: 5px;
+}
+.upload-button {
+    margin-bottom: 30px;
 }
 </style>
