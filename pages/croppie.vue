@@ -3,23 +3,17 @@
       <div class="upload">
             <!-- upload -->
             <div class="upload-input">
-                <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/>
+                <!-- <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/> -->
                 <button class="upload-button" @click="onClickImageUpload">이미지 업로드</button>
-                <input type="number" v-model="numbers" min="0" max="14" >
-            </div>
+                <input type="number" v-model="number" min="0" max="14" >
+            </div> 
             <!--// upload -->
-            <div class="crop-wrap wd600">
-                <h4 v-if="isCropped">이미지 미리보기 <button v-if="isCropped" @click="crop" class="upload-button">크롭하기</button></h4>
-                <vue-croppie  v-if="isCropped" ref="croppieRef" :enableResize="false" :boundary="{ width: 600, height: 700}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">
-                </vue-croppie>
-            </div>
-            
-            
+
             <!-- the result -->
-            <div class="wd600 wd601">
-                <h4 v-if="isCropped">크롭한 이미지 미리보기 <a class="download-button" v-if="images" :href="images.imageUrl" :download="images.name">다운로드</a></h4>
-                <div class="wd600 flex" v-if="isCropped">
-                    <img v-show="isCropped" :src="cropped">
+            <div class="wd600 wd601" v-if="images">
+                <h4 >크롭한 이미지 미리보기 <a class="download-button"  :href="images.imageUrl" :download="images.name">다운로드</a> <a class="download-button"  @click="delelte">제거하기</a></h4>
+                <div class="wd600 flex">
+                    <img :src="images.imageUrl">
                 </div>
             </div>
             
@@ -27,10 +21,8 @@
 
             <!-- info -->
             <ul class="info-wrap">
-                
-                
-                <li><strong>크롭 사이즈 (가로 X 세로)</strong><br> {{this.$store.state.fileForm[numbers].width + 'px X ' + this.$store.state.fileForm[numbers].height + 'px'}}</li>
-                <li><strong>this.$store.state.fileForm[numbers]</strong><br> {{this.$store.state.fileForm[numbers]}}</li>
+                <li><strong>크롭 사이즈 (가로 X 세로)</strong><br> {{this.$store.state.fileForm[number].width + 'px X ' + this.$store.state.fileForm[number].height + 'px'}}</li>
+                <li><strong>this.$store.state.fileForm[number]</strong><br> {{this.$store.state.fileForm[number]}}</li>
                 <li><strong>crop file</strong><br><ul v-if="images">
                     <li>name : {{images.name}}</li>
                 <li>size : {{images.size}}</li>
@@ -38,171 +30,69 @@
                 <li>url : {{images.imageUrl}}</li></ul></li>
             </ul>
             <!--// info -->
-      </div>
-      <!-- popup -->
-      <div class="alert" v-if="alert" @click.prevent="alert = false">
-        <p v-html="alertText"></p>
-      </div>
-      <!--// popup -->
-  </div>
+            </div>
+
+            <!-- popup -->
+            <div class="alert" v-if="alert" @click.prevent="alert = false">
+                <p v-html="alertText"></p>
+            </div>
+            
+            <!--// popup -->
+            <lazy-modules-image-crop-modal ref="child" @data="dataPush" @showAlert="showAlert" @show="showModal" v-show="isModal" :number="number" @close="isModal = false">
+            </lazy-modules-image-crop-modal>
+    </div>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            // croppie toggle
-            isCropped: false,
-            // croppie dataURLToBlob
-            croppieImage: '',
-            // croppie active
-            cropped: null,
-            width: 250,
-            height: 250,
-            maxSize : 1024 * 1024 * 5,
             images: null,
             alert: false,
             alertText: '',
-            numbers: 0
+            number: '0',
+            isModal: false
         }
     },
     methods: {
-        onClickImageUpload(){
-            this.$refs.upload.click();
-        },
-        croppie (e) {
-            var fileForm = /(jpg|jpeg|png|bmp)$/;
-            var files = e.target.files || e.dataTransfer.files;
-
-            // reset
-            this.isCropped = false;
-            this.croppieImage = '';
-            this.cropped = null;
+        delelte(){
             this.images = null;
-
-            // 업로드 파일 유무
-            if (!files.length) return;
-
-            // 
-            // 파일사이즈 유효성 검사
-            if (files[0].size > this.maxSize) {
-                this.alert = true;
-                this.alertText = '이미지 사이즈 5MB 이하로 업로드해 주세요';
-                return;
-            } else {
-                this.alert = false;
-            }
-
-            // 파일 유형 유효성 검사
-            if (!files[0].type.match(fileForm)) {
-                this.alert = true;
-                this.alertText = 'png, jpg, bmp 이미지 파일만 업로드 가능해요';
-                return;
-            } else {
-                this.alert = false;
-            }
-            if (this.images){
-                this.images = null;
-            }
-
-            
-             var reader =  new FileReader();
-             reader.onload = async (e) => {
-                const image =  new Image();
-                image.src = e.target.result;
-                image.onload = (imageEvent) => {
-                    var w = image.width;
-                    var h = image.height;
-                    console.log(w,h);
-                    if(w < this.$store.state.fileForm[this.numbers].width || h < this.$store.state.fileForm[this.numbers].height) {
-                        this.isCropped = false;
-                        this.croppieImage = '';
-                        this.cropped = null;
-                        this.images = null;
-                        this.alert = true;
-                        this.alertText = `width가 ${this.$store.state.fileForm[this.numbers].width}px 보다 작고, height가 ${this.$store.state.fileForm[this.numbers].height}px 보다 작다.`;
-                        return;
-                    } 
-                }
-
-                
-                await this.$refs.croppieRef.bind({
-                    url: e.target.result
-                });
-                
-                
-            };
-            reader.readAsDataURL(files[0]);
-            this.isCropped = true;
-            
-           
-            
-
-           
         },
-        crop() {
-            // Options can be updated.
-            // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
-            let options = {
-                type: 'base64',
-                size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
-                format: 'jpeg',
-            };
-            this.$refs.croppieRef.result(options, output => {
-            this.cropped = this.croppieImage = output;
-                this.images = this.dataURLToBlob(output)
-                this.images.imageUrl = URL.createObjectURL(this.images);
-                console.log(this.images);
-            });        
+        dataPush(data){
+            console.log(data);
+            this.images = data;
         },
-        // dataURL을 file 객체로 변환 로직.
-        dataURLToBlob(dataURL) {
-            const BASE64_MARKER = ';base64,';
-
-            // base64로 인코딩 되어있지 않을 경우
-            if (dataURL.indexOf(BASE64_MARKER) === -1) {
-                const parts = dataURL.split(',');
-                const contentType = parts[0].split(':')[1];
-                const raw = parts[1];
-                return new Blob([raw], {
-                    type: contentType
-                });
-            }
-            // base64로 인코딩 된 이진데이터일 경우
-            const parts = dataURL.split(BASE64_MARKER);
-            const contentType = parts[0].split(':')[1];
-
-            const raw = window.atob(parts[1]);
-            // atob()는 Base64를 디코딩하는 메서드
-            const rawLength = raw.length;
-            // 부호 없는 1byte 정수 배열을 생성
-            const uInt8Array = new Uint8Array(rawLength); // 길이만 지정된 배열
-            let i = 0;
-            while (i < rawLength) {
-                uInt8Array[i] = raw.charCodeAt(i);
-                i++;
-            }
-            const blob = new Blob([uInt8Array], {
-                type: contentType
-            });
-            return new File([blob], this.imageFileName(this.$store.state.fileForm[this.numbers]), { type: contentType });
+        showModal(Boolean){
+            this.isModal = Boolean;
         },
-        imageFileName(data){
-            if (!data) return;
-            const str = data.data;
-            let re_str;
-            re_str = str
-            .replace(/campaignCode/g, this.$store.state.campaignCode)
-            .replace(/influencerId/g, this.$store.state.influencerId)
-            .replace(/clientId/g, this.$store.state.clientId)
-            .replace(/brandIdx/g, this.$store.state.brandIdx)
-            .replace(/highClassIdx/g, this.$store.state.highClassIdx)
-            .replace(/contentIdx/g, this.$store.state.contentIdx)
-            .replace(/issueIdx/g, this.$store.state.issueIdx)
-            .replace(/middleClassIdx/g, this.$store.state.middleClassIdx);
+        showAlert(num){
+            console.log(num);
+            this.alertText = '';
 
-            return re_str + '.jpg';
-        }
+            switch (num) {
+                case 0:
+                    this.alertText = '이미지 사이즈 5MB 이하로 업로드해 주세요';
+                    this.alert = true;
+                    break;
+                case 1:
+                    this.alertText = 'png, jpg, bmp 이미지 파일만 업로드 가능해요';
+                    this.alert = true;
+                    break;
+                case 2:
+                    this.alertText = `width가 ${this.$store.state.fileForm[this.number].width}px 보다 작거나, height가 ${this.$store.state.fileForm[this.number].height}px 보다 작다.`;
+                    this.alert = true;
+                    break;
+            
+                default:
+                    break;
+            }
+            
+            
+            
+        },
+        onClickImageUpload(){
+            this.$refs.child.$refs.upload.click();
+        },
         
     }
 }
