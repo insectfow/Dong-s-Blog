@@ -99,9 +99,9 @@ export default {
     plugins: [
         { src: '~/plugins/croppie.js', ssr: false }
     ]
-    // io: {
+  // io: {
 
     // }
     // 'nuxt-socket-io',
-
+  
 }

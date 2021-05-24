@@ -5,15 +5,10 @@
                 <h5>이미지 업로드</h5>
                 <div class="close-button">
                     <a href="#" @click.prevent="close">X</a>
-                    <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/>
-
                 </div>
                 
-                <div class="modal-crop-wrap">
-                    <button v-if="isCropped" @click="crop" class="crop-button">저장하기</button>
-                    <vue-croppie  v-if="isCropped" ref="croppieRef" :enableResize="false" :boundary="{ width: 600, height: 670}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">
-                    </vue-croppie>
-                </div>
+                
+                <slot></slot>
                 
             </div>
             
@@ -54,137 +49,137 @@ export default {
         alert(num){
             this.$emit('showAlert', num);
         },
-        croppie (e) {
-            var fileForm = /(jpg|jpeg|png|bmp)$/;
-            var files = e.target.files || e.dataTransfer.files;
+        // croppie (e) {
+        //     var fileForm = /(jpg|jpeg|png|bmp)$/;
+        //     var files = e.target.files || e.dataTransfer.files;
 
-            // reset
-            this.isCropped = false;
-            this.croppieImage = '';
-            this.cropped = null;
-            this.images = null;
+        //     // reset
+        //     this.isCropped = false;
+        //     this.croppieImage = '';
+        //     this.cropped = null;
+        //     this.images = null;
 
-            // 업로드 파일 유무
-            if (!files.length) return;
+        //     // 업로드 파일 유무
+        //     if (!files.length) return;
 
-            // 
-            // 파일사이즈 유효성 검사
-            if (files[0].size > this.maxSize) {
+        //     // 
+        //     // 파일사이즈 유효성 검사
+        //     if (files[0].size > this.maxSize) {
                 
-                this.alert(0);
-                this.show(false);
-                return;
-            } 
+        //         this.alert(0);
+        //         this.show(false);
+        //         return;
+        //     } 
 
-            // 파일 유형 유효성 검사
-            if (!files[0].type.match(fileForm)) {
-                this.alert(1);
-                this.show(false);
-                return;
-            } 
+        //     // 파일 유형 유효성 검사
+        //     if (!files[0].type.match(fileForm)) {
+        //         this.alert(1);
+        //         this.show(false);
+        //         return;
+        //     } 
 
 
-            if (this.images){
-                this.images = null;
-            }
+        //     if (this.images){
+        //         this.images = null;
+        //     }
             
-             var reader =  new FileReader();
-             reader.onload = async (e) => {
-                const image =  new Image();
-                image.src = e.target.result;
-                image.onload = (imageEvent) => {
-                    var w = image.width;
-                    var h = image.height;
-                    console.log(w,h);
-                    if(w < this.$store.state.fileForm[this.numbers].width || h < this.$store.state.fileForm[this.numbers].height) {
-                        this.isCropped = false;
-                        this.croppieImage = '';
-                        this.cropped = null;
-                        this.images = null;
-                        this.alert(2);
-                        this.show(false);
-                        return;
-                    } else {
-                        this.show(true);
-                    }
-                }
+        //      var reader =  new FileReader();
+        //      reader.onload = async (e) => {
+        //         const image =  new Image();
+        //         image.src = e.target.result;
+        //         image.onload = (imageEvent) => {
+        //             var w = image.width;
+        //             var h = image.height;
+        //             console.log(w,h);
+        //             if(w < this.$store.state.fileForm[this.numbers].width || h < this.$store.state.fileForm[this.numbers].height) {
+        //                 this.isCropped = false;
+        //                 this.croppieImage = '';
+        //                 this.cropped = null;
+        //                 this.images = null;
+        //                 this.alert(2);
+        //                 this.show(false);
+        //                 return;
+        //             } else {
+        //                 this.show(true);
+        //             }
+        //         }
 
                 
-                await this.$refs.croppieRef.bind({
-                    url: e.target.result
-                });
+        //         await this.$refs.croppieRef.bind({
+        //             url: e.target.result
+        //         });
                 
                 
-            };
-            reader.readAsDataURL(files[0]);
-            this.isCropped = true;
-        },
-        crop() {
-            // Options can be updated.
-            // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
-            let options = {
-                type: 'base64',
-                size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
-                format: 'jpeg',
-            };
-            this.$refs.croppieRef.result(options, output => {
-            this.cropped = this.croppieImage = output;
-                this.images = this.dataURLToBlob(output)
-                this.images.imageUrl = URL.createObjectURL(this.images);
-                // console.log(this.images);
-                this.dataPush(this.images);
-            });      
+        //     };
+        //     reader.readAsDataURL(files[0]);
+        //     this.isCropped = true;
+        // },
+        // crop() {
+        //     // Options can be updated.
+        //     // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
+        //     let options = {
+        //         type: 'base64',
+        //         size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
+        //         format: 'jpeg',
+        //     };
+        //     this.$refs.croppieRef.result(options, output => {
+        //     this.cropped = this.croppieImage = output;
+        //         this.images = this.dataURLToBlob(output)
+        //         this.images.imageUrl = URL.createObjectURL(this.images);
+        //         // console.log(this.images);
+        //         this.dataPush(this.images);
+        //     });      
             
-            this.close();  
-        },
+        //     this.close();  
+        // },
         // dataURL을 file 객체로 변환 로직.
-        dataURLToBlob(dataURL) {
-            const BASE64_MARKER = ';base64,';
+        // dataURLToBlob(dataURL) {
+        //     const BASE64_MARKER = ';base64,';
 
-            // base64로 인코딩 되어있지 않을 경우
-            if (dataURL.indexOf(BASE64_MARKER) === -1) {
-                const parts = dataURL.split(',');
-                const contentType = parts[0].split(':')[1];
-                const raw = parts[1];
-                return new Blob([raw], {
-                    type: contentType
-                });
-            }
-            // base64로 인코딩 된 이진데이터일 경우
-            const parts = dataURL.split(BASE64_MARKER);
-            const contentType = parts[0].split(':')[1];
+        //     // base64로 인코딩 되어있지 않을 경우
+        //     if (dataURL.indexOf(BASE64_MARKER) === -1) {
+        //         const parts = dataURL.split(',');
+        //         const contentType = parts[0].split(':')[1];
+        //         const raw = parts[1];
+        //         return new Blob([raw], {
+        //             type: contentType
+        //         });
+        //     }
+        //     // base64로 인코딩 된 이진데이터일 경우
+        //     const parts = dataURL.split(BASE64_MARKER);
+        //     const contentType = parts[0].split(':')[1];
 
-            const raw = window.atob(parts[1]);
-            // atob()는 Base64를 디코딩하는 메서드
-            const rawLength = raw.length;
-            // 부호 없는 1byte 정수 배열을 생성
-            const uInt8Array = new Uint8Array(rawLength); // 길이만 지정된 배열
-            let i = 0;
-            while (i < rawLength) {
-                uInt8Array[i] = raw.charCodeAt(i);
-                i++;
-            }
-            const blob = new Blob([uInt8Array], {
-                type: contentType
-            });
-            return new File([blob], this.imageFileName(this.$store.state.fileForm[this.numbers]), { type: contentType });
-        },
-        imageFileName(data){
-            if (!data) return;
-            const str = data.data;
-            let re_str;
-            re_str = str
-            .replace(/campaignCode/g, this.$store.state.campaignCode)
-            .replace(/influencerId/g, this.$store.state.influencerId)
-            .replace(/clientId/g, this.$store.state.clientId)
-            .replace(/brandIdx/g, this.$store.state.brandIdx)
-            .replace(/highClassIdx/g, this.$store.state.highClassIdx)
-            .replace(/contentIdx/g, this.$store.state.contentIdx)
-            .replace(/issueIdx/g, this.$store.state.issueIdx)
-            .replace(/middleClassIdx/g, this.$store.state.middleClassIdx);
+        //     const raw = window.atob(parts[1]);
+        //     // atob()는 Base64를 디코딩하는 메서드
+        //     const rawLength = raw.length;
+        //     // 부호 없는 1byte 정수 배열을 생성
+        //     const uInt8Array = new Uint8Array(rawLength); // 길이만 지정된 배열
+        //     let i = 0;
+        //     while (i < rawLength) {
+        //         uInt8Array[i] = raw.charCodeAt(i);
+        //         i++;
+        //     }
+        //     const blob = new Blob([uInt8Array], {
+        //         type: contentType
+        //     });
+        //     return new File([blob], this.imageFileName(this.$store.state.fileForm[this.numbers]), { type: contentType });
+        // },
+        // imageFileName(data){
+        //     if (!data) return;
+        //     const str = data.data;
+        //     let re_str;
+        //     re_str = str
+        //     .replace(/campaignCode/g, this.$store.state.campaignCode)
+        //     .replace(/influencerId/g, this.$store.state.influencerId)
+        //     .replace(/clientId/g, this.$store.state.clientId)
+        //     .replace(/brandIdx/g, this.$store.state.brandIdx)
+        //     .replace(/highClassIdx/g, this.$store.state.highClassIdx)
+        //     .replace(/contentIdx/g, this.$store.state.contentIdx)
+        //     .replace(/issueIdx/g, this.$store.state.issueIdx)
+        //     .replace(/middleClassIdx/g, this.$store.state.middleClassIdx);
 
-            return re_str + '.jpg';
-        }
+        //     return re_str + '.jpg';
+        // }
     }
 }
 </script>

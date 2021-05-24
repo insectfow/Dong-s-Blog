@@ -5,7 +5,8 @@
             <div class="upload-input">
                 <!-- <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/> -->
                 <button class="upload-button" @click="onClickImageUpload">이미지 업로드</button>
-                <input type="number" v-model="number" min="0" max="14" >
+                <input type="number" v-model="numbers" min="0" max="14" >
+                <input type="file" @change="croppie($event, data)" ref="upload" hidden accept="image/*"/>
             </div> 
             <!--// upload -->
 
@@ -21,8 +22,8 @@
 
             <!-- info -->
             <ul class="info-wrap">
-                <li><strong>크롭 사이즈 (가로 X 세로)</strong><br> {{this.$store.state.fileForm[number].width + 'px X ' + this.$store.state.fileForm[number].height + 'px'}}</li>
-                <li><strong>this.$store.state.fileForm[number]</strong><br> {{this.$store.state.fileForm[number]}}</li>
+                <li><strong>크롭 사이즈 (가로 X 세로)</strong><br> {{this.$store.state.fileForm[this.numbers].width + 'px X ' + this.$store.state.fileForm[this.numbers].height + 'px'}}</li>
+                <li><strong>this.$store.state.fileForm[numbers]</strong><br> {{this.$store.state.fileForm[this.numbers]}}</li>
                 <li><strong>crop file</strong><br><ul v-if="images">
                     <li>name : {{images.name}}</li>
                 <li>size : {{images.size}}</li>
@@ -38,7 +39,12 @@
             </div>
             
             <!--// popup -->
-            <lazy-modules-image-crop-modal ref="child" @data="dataPush" @showAlert="showAlert" @show="showModal" v-show="isModal" :number="number" @close="isModal = false">
+            <lazy-modules-image-crop-modal v-if="isModal" ref="child" @close="isModal = false" @show="showModal(b)">
+                <div class="modal-crop-wrap">
+                    <button @click="crop" class="crop-button">저장하기</button>
+                    <vue-croppie ref="croppieRef" id="croppieRef" :enableResize="false" :boundary="{ width: 600, height: 670}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">
+                    </vue-croppie>
+                </div>
             </lazy-modules-image-crop-modal>
     </div>
 </template>
@@ -50,50 +56,90 @@ export default {
             images: null,
             alert: false,
             alertText: '',
-            number: '0',
-            isModal: false
+            isModal: false,
+            isCropped: false,
+            maxSize : 1024 * 1024 * 5,
+            numbers: 0,
         }
     },
     methods: {
+        alertCallback(v1, v2){
+            this.alert = v2;
+            this.alertText = v1;
+        },
         delelte(){
             this.images = null;
-        },
-        dataPush(data){
-            console.log(data);
-            this.images = data;
         },
         showModal(Boolean){
             this.isModal = Boolean;
         },
-        showAlert(num){
-            console.log(num);
-            this.alertText = '';
-
-            switch (num) {
-                case 0:
-                    this.alertText = '이미지 사이즈 5MB 이하로 업로드해 주세요';
-                    this.alert = true;
-                    break;
-                case 1:
-                    this.alertText = 'png, jpg, bmp 이미지 파일만 업로드 가능해요';
-                    this.alert = true;
-                    break;
-                case 2:
-                    this.alertText = `width가 ${this.$store.state.fileForm[this.number].width}px 보다 작거나, height가 ${this.$store.state.fileForm[this.number].height}px 보다 작다.`;
-                    this.alert = true;
-                    break;
-            
-                default:
-                    break;
-            }
-            
-            
-            
-        },
         onClickImageUpload(){
-            this.$refs.child.$refs.upload.click();
+            this.$refs.upload.click();
         },
-        
+        croppie (e) {
+            var fileForm = /(jpg|jpeg|png|bmp)$/;
+            var files = e.target.files || e.dataTransfer.files;
+
+            // reset
+            this.images = null;
+
+            // 업로드 파일 유무
+            if (!files.length) return;
+
+            // 
+            // 파일사이즈 유효성 검사
+            if (files[0].size > this.maxSize) {
+                this.croppieAlart(0, this.numbers, this.alertCallback);
+                this.showModal(false);
+                return;
+            } 
+
+            // 파일 유형 유효성 검사
+            if (!files[0].type.match(fileForm)) {
+                this.croppieAlart(1, this.numbers, this.alertCallback);
+                this.showModal(false);
+                return;
+            }    
+             var reader =  new FileReader();
+             reader.onload = (e) => {
+                const image =  new Image();
+                image.src = e.target.result;
+                image.onload = (imageEvent) => {
+                    var w = image.width;
+                    var h = image.height;
+                    console.log(w,h);
+                    if(w < this.$store.state.fileForm[this.numbers].width || h < this.$store.state.fileForm[this.numbers].height) {
+                        this.images = null;
+                        this.croppieAlart(2, this.numbers, this.alertCallback);
+                        this.showModal(false);
+                        return;
+                    } else {
+                        this.showModal(true);
+                         const time = setTimeout(() => {
+                            this.$refs.croppieRef.bind({
+                                url: e.target.result
+                            });
+                            clearTimeout(time);
+                        }, 100);
+                        
+                    }
+                }
+            };
+            reader.readAsDataURL(files[0]);
+            e.target.value = '';
+        },
+        crop(){
+            let options = {
+                type: 'base64',
+                size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
+                format: 'jpeg',
+            };
+            this.$refs.croppieRef.result(options, output => {
+                this.images = this.dataURLToBlob(output, this.numbers, this.imageFileName)
+                this.images.imageUrl = URL.createObjectURL(this.images);
+            });     
+            this.showModal(false); 
+        }
     }
 }
 </script>
@@ -102,7 +148,6 @@ export default {
 .croppie-wrap {
     width: 1600px;
     margin: 0 auto;
-    
 }
 .upload {
     display: flex;
