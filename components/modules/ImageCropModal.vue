@@ -6,10 +6,7 @@
                 <div class="close-button">
                     <a href="#" @click.prevent="close">X</a>
                 </div>
-                
-                
                 <slot></slot>
-                
             </div>
             
         </div>
