@@ -6,7 +6,7 @@
                 <!-- <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/> -->
                 <button class="upload-button" @click="onClickImageUpload">이미지 업로드</button>
                 <input type="number" v-model="numbers" min="0" max="14" >
-                <input type="file" @change="croppie($event, data)" ref="upload" hidden accept="image/*"/>
+                <input type="file" @change="croppie($event)" ref="upload" hidden accept="image/*"/>
             </div> 
             <!--// upload -->
 
@@ -39,7 +39,7 @@
             </div>
             
             <!--// popup -->
-            <lazy-modules-image-crop-modal v-if="isModal" ref="child" @close="isModal = false" @show="showModal(b)">
+            <lazy-modules-image-crop-modal v-if="isModal" ref="child" @close="isModal = false">
                 <div class="modal-crop-wrap">
                     <button @click="crop" class="crop-button">저장하기</button>
                     <vue-croppie ref="croppieRef" id="croppieRef" :enableResize="false" :boundary="{ width: 600, height: 670}" :viewport="{ width: this.$store.state.fileForm[numbers].width, height: this.$store.state.fileForm[numbers].height, 'type':'square' }">

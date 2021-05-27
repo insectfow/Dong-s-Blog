@@ -97,7 +97,8 @@ export default {
         proxy: true
     },
     plugins: [
-        { src: '~/plugins/croppie.js', ssr: false }
+        { src: '~/plugins/croppie.js', ssr: false },
+        { src: '~/plugins/scroll.js', ssr: false }
     ]
   // io: {
 

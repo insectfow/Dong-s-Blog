@@ -21,8 +21,17 @@
       <nuxt-link to="/croppie" class="image-6">
         <span>croppie</span>
       </nuxt-link>
-       <nuxt-link to="/class" class="image-7">
+      <nuxt-link to="/class" class="image-7">
         <span>class</span>
+      </nuxt-link>
+      <nuxt-link to="/login" class="image-8">
+        <span>login</span>
+      </nuxt-link>
+      <nuxt-link to="/scroll" class="image-8">
+        <span>scroll</span>
+      </nuxt-link>
+      <nuxt-link to="/animation" class="image-8">
+        <span>animation</span>
       </nuxt-link>
     </section>
   </div>
@@ -71,8 +80,9 @@ export default {
 }
 .home-contents {
   margin-top: 50px;
-  width: 30rem;
-  height: 20rem;
+  /* width: 30rem; */
+  width: 40rem;
+  /* height: 20rem; */
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -144,6 +154,13 @@ export default {
 }
 .image-7 {
   background: url('https://images.unsplash.com/photo-1620805368151-8d5ce3a92d3f?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.image-8 {
+  background: url('https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

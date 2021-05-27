@@ -1,14 +1,23 @@
 <template>
-  <div id="app">
-      <Nuxt />
+
+      <div id="app">
+        <vue-scroll>
+          <Nuxt />
+          </vue-scroll>
       <div class="back-button" v-if="$route.path !== '/'" @click="backPage">
           <i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i>
+          </div>
       </div>
-  </div>
+  
 </template>
 
 <script>
 export default {
+  data (){
+    return {
+      
+    }
+  },
   methods: {
     backPage(){
       // console.log(this.$route);
@@ -26,8 +35,23 @@ export default {
 </script>
 
 <style>
+html, body {
+  overflow: hidden;
+}
+
+.page-enter-active, .page-leave-active { 
+    transition: all 0.3s;
+    transform: scale(1);
+}
+    
+.page-enter, .page-leave-active { 
+    opacity: 0; 
+    transform: scale(0);
+}
+
 #app {
   position: relative;
+  overflow: auto;
 }
 
 a, a:active {

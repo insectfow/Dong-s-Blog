@@ -1,23 +1,23 @@
 <template>
-  <div class="hacker-wrap">
-      <p v-if="$fetchState.pending" class="pending">불러오는 중...</p>
-      <p v-else-if="$fetchState.error">An error occurred :(</p>
-      <transition v-else name="slide">
-          <ul class="card-wrap" >
-            <li v-for="(list, idx) in nNewList" :key="idx">
-                <ul>
-                    <li>
-                        <a :href="list.link" target="_blank" rel="noreferrer noopener">
-                            <h3 v-html="list.title" ></h3>
-                            <p v-html="list.description" class="overText"></p>
-                            <p v-html="list.pubDate" class="overText"></p>
-                        </a>
-                    </li>
-                </ul>    
-            </li>          
-        </ul>
-      </transition>
-  </div>
+    <div class="hacker-wrap">
+        <p v-if="$fetchState.pending" class="pending">불러오는 중...</p>
+        <p v-else-if="$fetchState.error">An error occurred :(</p>
+        <transition v-else name="slide">
+            <ul class="card-wrap" >
+                <li v-for="(list, idx) in nNewList" :key="idx">
+                    <ul>
+                        <li>
+                            <a :href="list.link" target="_blank" rel="noreferrer noopener">
+                                <h3 v-html="list.title" ></h3>
+                                <p v-html="list.description" class="overText"></p>
+                                <p v-html="list.pubDate" class="overText"></p>
+                            </a>
+                        </li>
+                    </ul>    
+                </li>          
+            </ul>
+        </transition>
+    </div>
 </template>
 
 <script>
