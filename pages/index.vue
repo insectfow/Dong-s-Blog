@@ -30,8 +30,8 @@
       <nuxt-link to="/scroll" class="image-8">
         <span>scroll</span>
       </nuxt-link>
-      <nuxt-link to="/animation" class="image-8">
-        <span>animation</span>
+      <nuxt-link to="/layout" class="image-9">
+        <span>layout</span>
       </nuxt-link>
     </section>
   </div>
@@ -161,6 +161,12 @@ export default {
 
 .image-8 {
   background: url('https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.image-9 {
+  background: url('https://images.unsplash.com/photo-1622126128180-ba5db1f738d8?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
