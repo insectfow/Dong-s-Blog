@@ -18,10 +18,10 @@
       <nuxt-link to="/upload" class="image-5">
         <span>upload</span>
       </nuxt-link>
-      <nuxt-link to="/croppie" class="image-6" style="background: url('https://static.sspicc.co.kr/assets/2021-06/23 3432.png');">
+      <nuxt-link to="/croppie" class="image-6" style="background-image: url('https://static.sspicc.co.kr/assets/2021-06/23 3432.png');">
         <span>croppie</span>
       </nuxt-link>
-      <nuxt-link to="/class" class="image-7"  style="background: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png');">
+      <nuxt-link to="/class" class="image-7"  style="background-image: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png');">
         <span>class</span>
       </nuxt-link>
       <nuxt-link to="/login" class="image-8">
