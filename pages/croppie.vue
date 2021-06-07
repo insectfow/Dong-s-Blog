@@ -77,16 +77,13 @@ export default {
             this.$refs.upload.click();
         },
         croppie (e) {
-            var fileForm = /(jpg|jpeg|png|bmp)$/;
-            var files = e.target.files || e.dataTransfer.files;
+            let fileForm = /(jpg|jpeg|png|bmp)$/;
+            let files = e.target.files || e.dataTransfer.files;
+            let fileName = e.target.files[0].name;
 
             // reset
             this.images = null;
 
-            // 업로드 파일 유무
-            if (!files.length) return;
-
-            // 
             // 파일사이즈 유효성 검사
             if (files[0].size > this.maxSize) {
                 this.croppieAlart(0, this.numbers, this.alertCallback);
@@ -115,6 +112,7 @@ export default {
                         return;
                     } else {
                         this.showModal(true);
+                        this.fileName = fileName;
                          const time = setTimeout(() => {
                             this.$refs.croppieRef.bind({
                                 url: e.target.result
@@ -135,7 +133,7 @@ export default {
                 format: 'jpeg',
             };
             this.$refs.croppieRef.result(options, output => {
-                this.images = this.dataURLToBlob(output, this.numbers, this.imageFileName)
+                this.images = this.dataURLToBlob(output, this.fileName)
                 this.images.imageUrl = URL.createObjectURL(this.images);
             });     
             this.showModal(false); 

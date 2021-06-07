@@ -18,10 +18,10 @@
       <nuxt-link to="/upload" class="image-5">
         <span>upload</span>
       </nuxt-link>
-      <nuxt-link to="/croppie" class="image-6">
+      <nuxt-link to="/croppie" class="image-6" style="background: url('https://static.sspicc.co.kr/assets/2021-06/23 3432.png');">
         <span>croppie</span>
       </nuxt-link>
-      <nuxt-link to="/class" class="image-7">
+      <nuxt-link to="/class" class="image-7"  style="background: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png');">
         <span>class</span>
       </nuxt-link>
       <nuxt-link to="/login" class="image-8">
@@ -147,26 +147,26 @@ export default {
 }
 
 .image-6 {
-  background: url('https://images.unsplash.com/photo-1620740517124-b2985c235871?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3MXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  /* background: url('https://images.unsplash.com/photo-1620740517124-b2985c235871?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3MXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .image-7 {
-  background: url('https://images.unsplash.com/photo-1620805368151-8d5ce3a92d3f?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  /* background: url('https://images.unsplash.com/photo-1620805368151-8d5ce3a92d3f?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .image-8 {
-  background: url('https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80');
+  background: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .image-9 {
-  background: url('https://images.unsplash.com/photo-1622126128180-ba5db1f738d8?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+  background: url('https://static.sspicc.co.kr/assets/2021-06/23 3432.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

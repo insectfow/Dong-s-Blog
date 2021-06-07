@@ -105,8 +105,8 @@ const fileForm = [
         id: 14,
         name: '캠페인 가이드 작성 콘텐츠 예시 이미지',
         data: 'campaignCode-highClassIdx-middleClassIdx-issueIdx-contentIdx-idx', // issueIdx 0은 사전이슈잉 1은 공구포스팅용
-        width: 450,
-        height: 300 
+        width: 750,
+        height: 500 
     }
 ]
 const campaignCode = 'r-22310230123';
@@ -137,7 +137,7 @@ Vue.prototype.croppieAlart = (idx, imgIdx, callBack) => {
             break;
     }
 }
-Vue.prototype.dataURLToBlob = (dataURL, imgIdx, callBack) =>  {
+Vue.prototype.dataURLToBlob = (dataURL, name) =>  {
     const BASE64_MARKER = ';base64,';
 
     // base64로 인코딩 되어있지 않을 경우
@@ -166,8 +166,11 @@ Vue.prototype.dataURLToBlob = (dataURL, imgIdx, callBack) =>  {
     const blob = new Blob([uInt8Array], {
         type: contentType
     });
-    return new File([blob], callBack(fileForm[imgIdx]), { type: contentType });
+    return new File([blob], name, { type: contentType });
 }
+
+
+// 사용안함
 Vue.prototype.imageFileName = (data) => {
     if (!data) return;
     const str = data.data;
