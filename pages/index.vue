@@ -24,10 +24,10 @@
       <nuxt-link to="/class" class="image-7"  style="background-image: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png');">
         <span>class</span>
       </nuxt-link>
-      <nuxt-link to="/login" class="image-8">
+      <nuxt-link to="/login" class="image-8" style="background: url('https://static.sspicc.co.kr/assets/2021-06/2021-06-04 18;08;06.JPEG')">
         <span>login</span>
       </nuxt-link>
-      <nuxt-link to="/scroll" class="image-8">
+      <nuxt-link to="/scroll" class="image-8" style="background-image: url('https://static.sspicc.co.kr/assets/2021-06/2021-06-04 18;08;06.JPEG')">
         <span>scroll</span>
       </nuxt-link>
       <nuxt-link to="/layout" class="image-9">
@@ -160,13 +160,13 @@ export default {
 }
 
 .image-8 {
-  background: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png');
+  /* background: url('https://static.sspicc.co.kr/assets/2021-06/2392;222;22.png'); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .image-9 {
-  background: url('https://static.sspicc.co.kr/assets/2021-06/23 3432.png');
+  background: url('https://static.sspicc.co.kr/assets/2021-06/2021-06-04 18;08;06.JPEG');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
