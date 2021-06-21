@@ -9,11 +9,15 @@
     "dependencies": {
         "@nuxtjs/axios": "^5.13.1",
         "@nuxtjs/proxy": "^2.1.0",
+        "@nuxtjs/style-resources": "^1.1.0",
         "axios": "^0.21.1",
         "cors": "^2.8.5",
         "express": "^4.17.1",
+        "node-sass": "^6.0.0",
         "nuxt": "^2.15.4",
+        "sass-loader": "^10.2.0",
         "vue": "^2.6.12",
+        "vue-cropperjs": "^4.2.0",
         "vue-croppie": "^2.0.2",
         "vuescroll": "^4.17.3"
     },

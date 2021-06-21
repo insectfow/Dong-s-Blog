@@ -28,6 +28,23 @@ export default {
 </script>
 
 <style>
+.color-picker {
+    margin-top: 50px;
+    width: 300px;
+}
+.color-picker label {
+    font-size: 16px;
+    width: 100%;
+}
+.color-picker input {
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    padding: 2px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 .modal-wrap {
     position: fixed;
     display: flex;

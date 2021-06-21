@@ -12,7 +12,7 @@
 
             <!-- the result -->
             <div class="image-wrap" v-if="images">
-                <div class="image-box main flex" @mouseover="imageHover = true" @mouseleave="imageHover = false">
+                <!-- <div class="image-box main flex" @mouseover="imageHover = true" @mouseleave="imageHover = false">
                     <div class="image-area" :style="`backgroundImage: url('${images.imageUrl}'); backgroundColor: ${color};`"></div>
                     <div class="image-hover" v-show="imageHover">
                         <a class="hover-button"  :href="images.imageUrl" :download="images.name">다운로드</a>
@@ -25,15 +25,16 @@
                         <a class="hover-button"  :href="images.imageUrl" :download="images.name">다운로드</a>
                         <a class="hover-button" href="#"  @click.prevent="delelte">제거하기</a>
                     </div>
-                </div>
+                </div> -->
                 <div class="image-box card flex" @mouseover="imageHover3 = true" @mouseleave="imageHover3 = false">
+                    <!-- <div class="image-area" :style="`backgroundImage: url('${images.imageUrl}');`"></div> -->
                     <div class="image-area" :style="`backgroundImage: url('${images.imageUrl}'); backgroundColor: ${color};`"></div>
-                    <div class="image-hover" v-show="imageHover3">
+                    <!-- <div class="image-hover" v-show="imageHover3">
                         <a class="hover-button"  :href="images.imageUrl" :download="images.name">다운로드</a>
                         <a class="hover-button" href="#"  @click.prevent="delelte">제거하기</a>
-                    </div>
+                    </div> -->
                 </div>
-                <div class="image-box campaign-card flex" @mouseover="imageHover4 = true" @mouseleave="imageHover4 = false">
+                <!-- <div class="image-box campaign-card flex" @mouseover="imageHover4 = true" @mouseleave="imageHover4 = false">
                     <div class="image-area" :style="`backgroundImage: url('${images.imageUrl}'); backgroundColor: ${color};`"></div>
                     <div class="image-hover" v-show="imageHover4">
                         <a class="hover-button"  :href="images.imageUrl" :download="images.name">다운로드</a>
@@ -46,23 +47,11 @@
                         <a class="hover-button"  :href="images.imageUrl" :download="images.name">다운로드</a>
                         <a class="hover-button" href="#"  @click.prevent="delelte">제거하기</a>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="image-wrap" v-else>이미지 업로드 해주세요</div>
+                <div class="image-wrap" v-else>이미지 업로드 해주세요</div>
             
             <!--// the result -->
-
-            <!-- info -->
-            <ul class="info-wrap">
-                <li><strong>크롭 사이즈 (가로 X 세로)</strong><br> {{this.$store.state.fileForm[this.numbers].width + 'px X ' + this.$store.state.fileForm[this.numbers].height + 'px'}}</li>
-                <li><strong>this.$store.state.fileForm[numbers]</strong><br> {{this.$store.state.fileForm[this.numbers]}}</li>
-                <li><strong>crop file</strong><br><ul v-if="images">
-                    <li>name : {{images.name}}</li>
-                <li>size : {{images.size}}</li>
-                <li>type : {{images.type}}</li>
-                <li>url : {{images.imageUrl}}</li></ul></li>
-            </ul>
-            <!--// info -->
             </div>
             <!-- popup -->
             <div class="alert" v-if="alert" @click.prevent="alert = false">
@@ -77,8 +66,7 @@
                 </div>
                 <div class="modal-crop-wrap">
                     <button @click="crop" class="crop-button">저장하기</button>
-                    <vue-croppie ref="croppieRef" id="croppieRef" :forceBoundary="true" :enableResize="false" :boundary="{ width: 600, height: 670}" :viewport="{ width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height, 'type':'square' }">
-                    </vue-croppie>
+                    <div></div>
                 </div>
             </lazy-modules-image-crop-modal>
     </div>
@@ -153,7 +141,7 @@ export default {
              reader.onload = (e) => {
                 const image =  new Image();
                 image.src = e.target.result;
-                image.onload = (imageEvent) => {
+                image.onload = imageEvent => {
                     var w = image.width;
                     var h = image.height;
                     console.log(w,h);
@@ -163,15 +151,27 @@ export default {
                         this.showModal(false);
                         return;
                     } else {
+                        let canvas = document.createElement('canvas');
+                        let canvasContext = canvas.getContext("2d");
+
+                        canvas.width =  0.8 * image.width;
+                        canvas.height =  0.8 * image.height;
+
+                        console.log(canvas.width, canvas.height, 'canvas');
+
+                        canvasContext.fillStyle = 'red';
+                        canvasContext.drawImage(image, 0, 0, canvas.width , canvas.height );
+                        let dataURI = canvas.toDataURL("image/jpeg");
+                        
+                        console.log(dataURI, 'canvas');
+
                         this.showModal(true);
                         this.fileName = fileName;
-                         const time = setTimeout(() => {
-                            this.$refs.croppieRef.bind({
-                                url: e.target.result
-                            });
-                            clearTimeout(time);
-                        }, 100);
-                        
+
+                        this.images = this.dataURLToBlob(dataURI, this.fileName);
+                        this.images.imageUrl = URL.createObjectURL(this.images);
+
+                        console.log(this.images);
                     }
                 }
             };
@@ -183,24 +183,25 @@ export default {
                 this.croppieAlart(3, this.numbers, this.alertCallback);
                 return;
             }
-            let options = {
-                type: 'base64',
-                // size: 'original',
-                size: 'viewport',
-                // size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
-                // size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
-                format: 'jpeg',
-            };
-            this.$refs.croppieRef.result(options, output => {
-                this.images = this.dataURLToBlob(output, this.fileName);
-                this.images.imageUrl = URL.createObjectURL(this.images);
-            });     
+            // this.images = this.dataURLToBlob(output, this.fileName);
+            // this.images.imageUrl = URL.createObjectURL(this.images);
+            // let options = {
+            //     type: 'base64',
+            //     // size: 'original',
+            //     size: 'viewport',
+            //     // size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
+            //     // size: { width: this.$store.state.fileForm[this.numbers].width, height: this.$store.state.fileForm[this.numbers].height },
+            //     format: 'jpeg',
+            // };
+            // this.$refs.croppieRef.result(options, output => {
+            //     this.images = this.dataURLToBlob(output, this.fileName);
+            //     this.images.imageUrl = URL.createObjectURL(this.images);
+            // });     
             this.showModal(false); 
         },
     }
 }
 </script>
-
 <style lang="scss" scoped>
 .croppie-wrap {
     width: 100%;
@@ -300,7 +301,7 @@ h4 {
     height: 100%;
     display: inline-block;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: center;       
 }
 .image-hover {

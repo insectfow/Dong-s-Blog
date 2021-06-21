@@ -15,3 +15,15 @@ a, a:active {
     text-decoration: none;
     color: #000;
 }
+
+
+button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background: #fff;
+    cursor: pointer;
+}
+button:disabled {
+    cursor: none;
+}

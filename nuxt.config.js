@@ -72,11 +72,14 @@ export default {
     // },
     // serverMiddleware : [ '~/api/index.js'],
     modules: [
-        '@nuxtjs/axios', '@nuxtjs/proxy'
+        '@nuxtjs/axios', '@nuxtjs/proxy', '@nuxtjs/style-resources'
     ],
     css: [
-        '@/assets/css/reset.css'
+        '@/assets/css/reset.css', '@/assets/scss/variables.scss'
     ],
+    styleResources: {
+        scss: '@/assets/scss/*.scss'
+    },
     serverMiddleware: [
         { path: '/api', handler: '@/static/api/index.js' },
     ],
@@ -98,8 +101,10 @@ export default {
     },
     plugins: [
         { src: '~/plugins/croppie.js', ssr: false },
-        { src: '~/plugins/scroll.js', ssr: false }
-    ]
+        { src: '~/plugins/scroll.js', ssr: false },
+        { src: '~/plugins/cropper.js', ssr: false } 
+    ],
+  
   // io: {
 
     // }

@@ -1,12 +1,20 @@
 <template>
   <div class="login-page">
-      login
+      <div v-if="isSpin">spin</div>
   </div>
 </template>
 
 <script>
 export default {
-
+  data(){
+    return {
+    }
+  },
+  mounted(){
+  },
+  methods:{
+    
+  }
 }
 </script>
 

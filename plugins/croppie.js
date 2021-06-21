@@ -133,6 +133,9 @@ Vue.prototype.croppieAlart = (idx, imgIdx, callBack) => {
         case 2:
             callBack(`width가 ${fileForm[imgIdx].width}px 보다 작거나, height가 ${fileForm[imgIdx].height}px 보다 작다.`, alert)
             break;
+        case 3:
+            callBack(`배경 색을 정해주세요`, alert);
+            break;
         default:
             break;
     }

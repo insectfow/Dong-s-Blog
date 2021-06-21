@@ -1,12 +1,11 @@
 <template>
-
       <div id="app">
         <vue-scroll>
           <Nuxt />
-          </vue-scroll>
+        </vue-scroll>
       <div class="back-button" v-if="$route.path !== '/'" @click="backPage">
-          <i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i>
-          </div>
+        <i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i>
+        </div>
       </div>
   
 </template>
@@ -72,5 +71,11 @@ input:focus {
   left: 20px;
   z-index: 11;
   cursor: pointer;
+  display: none;
+}
+@media screen and (max-width:640px) {
+  .back-button {
+    display: block;
+  }
 }
 </style>
