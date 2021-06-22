@@ -20,9 +20,10 @@
             ref="cropper"
             :src="imgSrc"
             preview=".preview"
-            :aspect-ratio="`$store.state.fileForm[nomber].width / $store.state.fileForm[nomber].height`"
+            :aspect-ratio="width + ' / ' + height"
           />
         </div>
+        <input type="color" v-model="color">
         <div class="actions">
           <a
             href="#"
@@ -146,7 +147,6 @@
             Upload Image
           </a>
         </div>
-
         <textarea v-model="data" />
       </section>
       <section class="preview-area">
@@ -176,15 +176,21 @@ export default {
   },
   data() {
     return {
-      imgSrc: '/assets/images/berserk.jpg',
+      imgSrc: '',
       cropImg: '',
       data: null,
+      number: 0,
+      width: 12,
+      height: 15,
+      color: '#ffffff'
     };
   },
   methods: {
     cropImage() {
       // get image data for post processing, e.g. upload or setting image src
-      this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+      this.cropImg = this.$refs.cropper.getCroppedCanvas({
+        fillColor: this.color
+      }).toDataURL();
     },
     flipX() {
       const dom = this.$refs.flipX;
@@ -255,7 +261,7 @@ export default {
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
-  width: 1024px;
+  width: 1280px;
   margin: 0 auto;
 }
 input[type="file"] {

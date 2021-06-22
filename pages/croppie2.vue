@@ -154,12 +154,12 @@ export default {
                         let canvas = document.createElement('canvas');
                         let canvasContext = canvas.getContext("2d");
 
-                        canvas.width =  0.8 * image.width;
-                        canvas.height =  0.8 * image.height;
+                        canvas.width = image.width;
+                        canvas.height = image.height;
 
                         console.log(canvas.width, canvas.height, 'canvas');
 
-                        canvasContext.fillStyle = 'red';
+                        canvasContext.fillStyle = '#ffffff';
                         canvasContext.drawImage(image, 0, 0, canvas.width , canvas.height );
                         let dataURI = canvas.toDataURL("image/jpeg");
                         
