@@ -44,101 +44,89 @@
                 </section>
                 <section class="action-area">
                     <div class="actions">
-                    <input type="color" v-model="color">
-                    <a
-                        :href="false"
-                        role="button"
-                        @click.prevent="showFileChooser"
-                    >
-                        Upload Image
-                    </a>
-                    <a v-if="cropImg" role="button" :href="cropImg" download>download</a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="zoom(0.2)"
-                    >
-                        Zoom In
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="zoom(-0.2)"
-                    >
-                        Zoom Out
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="move(-10, 0)"
-                    >
-                        Move Left
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="move(10, 0)"
-                    >
-                        Move Right
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="move(0, -10)"
-                    >
-                        Move Up
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="move(0, 10)"
-                    >
-                        Move Down
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="rotate(90)"
-                    >
-                        Rotate +90deg
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="rotate(-90)"
-                    >
-                        Rotate -90deg
-                    </a>
-                    <a
-                        ref="flipX"
-                        href="#"
-                        role="button"
-                        @click.prevent="flipX"
-                    >
-                        Flip X
-                    </a>
-                    <a
-                        ref="flipY"
-                        href="#"
-                        role="button"
-                        @click.prevent="flipY"
-                    >
-                        Flip Y
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="cropImage"
-                    >
-                        Crop
-                    </a>
-                    <a
-                        href="#"
-                        role="button"
-                        @click.prevent="reset"
-                    >
-                        Reset
-                    </a>
+                        <input type="color" v-model="color">
+                        <a
+                            :href="false"
+                            role="button"
+                            @click.prevent="showFileChooser"
+                        >
+                            Upload Image
+                        </a>
+                         <a
+                            href="#"
+                            role="button"
+                            @click.prevent="cropImage"
+                        >
+                            Crop
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="reset"
+                        >
+                            Reset
+                        </a>
+                        <a role="button" :href="cropImg" download>download</a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="zoom(0.2)"
+                        >
+                            Zoom In
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="zoom(-0.2)"
+                        >
+                            Zoom Out
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="rotate(90)"
+                        >
+                            Rotate +90deg
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="rotate(-90)"
+                        >
+                            Rotate -90deg
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="move"
+                        >
+                            ↑
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="move"
+                        >
+                            ←
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            
+                            @click.prevent="move"
+                        >
+                            ↓
+                        </a>
+                        <a
+                            href="#"
+                            role="button"
+                            @click.prevent="move"
+                        >
+                            →
+                        </a>
+                        
+                        
+                        
                     </div>
                 </section>
                 </div>
@@ -191,8 +179,29 @@ export default {
         getData() {
             this.data = JSON.stringify(this.$refs.cropper.getData(), null, 4);
         },
-        move(offsetX, offsetY) {
-            this.$refs.cropper.move(offsetX, offsetY);
+        move(e) {
+            if(!this.$refs.cropper){
+                return false;
+            }
+
+            if(!e){
+                
+            }
+
+            switch (e.keyCode) {
+                case 37:
+                    this.$refs.cropper.move(-10, 0);
+                    break;
+                case 38:
+                    this.$refs.cropper.move(0, -10);
+                    break;
+                case 39:
+                    this.$refs.cropper.move(10, 0);
+                    break;
+                case 40:
+                    this.$refs.cropper.move(0, 10);
+                    break;
+            }
         },
         reset() {
             this.$refs.cropper.reset();
@@ -236,6 +245,12 @@ export default {
             this.$refs.cropper.relativeZoom(percent);
         },
   },
+  created(){
+      window.addEventListener("keydown", this.move);
+  },
+  beforeDestroy(){
+      window.removeEventListener("keydown", this.move);
+  }
 }
 </script>
 
