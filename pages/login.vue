@@ -1,6 +1,13 @@
 <template>
   <div class="login-page">
-      <div v-if="isSpin">spin</div>
+      select
+      <lazy-modules-select-box
+      classs="selcet"
+        :options="assList"
+        :default="'N/A'"
+        @input="select"
+      />
+        
   </div>
 </template>
 
@@ -8,12 +15,20 @@
 export default {
   data(){
     return {
+      assList: [
+        '해제', '브랜드', '스패머'
+      ],
     }
+  },
+  computed: {
+    
   },
   mounted(){
   },
   methods:{
-    
+    select(value){
+      console.log(value);
+    }
   }
 }
 </script>

@@ -15,7 +15,7 @@
                             :guides="true"
                             :src="imgSrc"
                             preview=".preview"
-                            :aspect-ratio="12 / 15"
+                            :aspect-ratio="aspectRatio"
                             :cropBoxMovable="false"
                             :cropBoxResizable="false"
                             :toggleDragModeOnDblclick="false"
@@ -138,6 +138,7 @@
 <script>
 import '../../assets/css/cropper.css';
 export default {
+    props: ['aspectRatio'],
     data(){
         return {
             imgSrc: '',
@@ -146,7 +147,7 @@ export default {
             number: 0,
             width: 12,
             height: 15,
-            color: '#000000'
+            color: '#000000',
         }
     },
     methods: {

@@ -5,7 +5,7 @@
             <div class="upload-input">
                 <!-- <input type="file" @change="croppie" ref="upload" hidden accept="image/*"/> -->
                 <button class="upload-button" @click="onClickImageUpload">이미지 업로드</button>
-                <!-- <input type="number" v-model="numbers" min="0" max="14" > -->
+                <input type="number" v-model="numbers" min="0" max="14" >
                 <input type="file" @change="croppie($event)" ref="upload" hidden accept="image/*"/>
             </div> 
             <!--// upload -->
