@@ -15,7 +15,7 @@
                             :guides="true"
                             :src="imgSrc"
                             preview=".preview"
-                            :aspect-ratio="12 / 15"
+                            :aspect-ratio="ratio"
                             :cropBoxMovable="false"
                             :cropBoxResizable="false"
                             :toggleDragModeOnDblclick="false"
@@ -23,7 +23,7 @@
                             :autoCropArea="1"
                             :img-style="{ 'width': '400px', 'height': '400px' }"
                         />
-                        <a class="no-image" @click.prevent="showFileChooser" v-else>이미지 업로드 해주세요</a>
+                        <a class="no-image"  @click.prevent="showFileChooser" v-else>이미지 업로드 해주세요</a>
                     </div>
                 </section>
               
@@ -150,6 +150,7 @@
 <script>
 import '../../assets/css/cropper.css';
 export default {
+    props: ['ratio'],
     data(){
         return {
             imgSrc: '',
@@ -239,5 +240,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.no-image {
+    cursor: pointer;
+}
 </style>

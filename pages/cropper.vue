@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cropper-wrap-t">
     <div class="header">
       <h2>Cropper.js!</h2>
     </div>
@@ -11,8 +11,13 @@
       name="image"
       accept="image/*"
       @change="setImage"
+      hidden
     />
-    <lazy-modules-new-image-crop-modal ref="cropModal" @setImage="imageupload" v-show="isModal" @close="isModal = false" />
+    <button @click="ratio = 450 / 508; isModal = true">메인 이미지</button>
+    <button  @click="ratio = 360 / 670; isModal = true">세로 이미지</button>
+    <button @click="ratio = 140 / 140; isModal = true">브랜드 로고 이미지</button>
+    <button @click="ratio = 500 / 500; isModal = true">대표 이미지</button>
+    <lazy-modules-new-image-crop-modal :ratio="ratio" ref="cropModal" @setImage="imageupload" v-if="isModal" @close="isModal = false" />
     
   </div>
 </template>
@@ -26,7 +31,8 @@ export default {
   },
   data() {
     return {
-      isModal: false
+      isModal: false,
+      ratio: 1 / 1
     };
   },
   methods: {
@@ -44,6 +50,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.cropper-wrap-t {
+  height: 100vh;
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -56,6 +65,10 @@ export default {
 .header a {
   text-decoration: none;
   color: black;
+}
+button {
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
 }
 
 </style>
