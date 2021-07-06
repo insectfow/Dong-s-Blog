@@ -104,6 +104,14 @@ export default {
         { src: '~/plugins/scroll.js', ssr: false },
         { src: '~/plugins/cropper.js', ssr: false } 
     ],
+    build: {
+        html: {
+            minify: {
+              collapseWhitespace: true,
+              removeComments: true, 
+            },
+          },
+    }
   
   // io: {
 
