@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <h2>Cropper.js</h2>
+      <h2>Cropper.js!</h2>
     </div>
     <hr />
 
