@@ -1,4 +1,7 @@
+import Constant from '../Constant';
+
 export const state = () => ({
+        msgDatas: [],
     path: 'news',
     tasks: [],
     nNewList: [],
@@ -144,6 +147,11 @@ export const mutations = {
     setNaverNews(state, data, searchData){
         state.nNewList = data.items;
         state.searchData = searchData;
+    },
+    [Constant.PUSH_MSG_DATA]: ($state, $payload) => {
+        console.log($payload);
+        $state.msgDatas.push($payload);
+        console.log($state.msgDatas);
     }
 }
 export const actions = {

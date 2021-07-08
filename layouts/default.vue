@@ -1,8 +1,6 @@
 <template>
       <div id="app">
-        <vue-scroll>
-          <Nuxt />
-        </vue-scroll>
+        <Nuxt />
       <div class="back-button" v-if="$route.path !== '/'" @click="backPage">
         <i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i>
         </div>
