@@ -86,19 +86,19 @@ export default {
     // axios: {
     //     baseUrl: 'https://master.d9ypdpedk0pao.amplifyapp.com:8085'
     // },
-    // proxy: {
-    //     '/api' : {
-    //         target : 'http://13.125.22.192:3000/api',
-    //         changeOrigin: true,
-    //         pathRewrite: {
-    //             '^/api': ''
-    //         }
-    //     }
-    // },
-    // outputDir: '../static/api/',
-    // axios: {
-    //     proxy: true
-    // },
+    proxy: {
+        '/api' : {
+            target : 'http://13.125.22.192:3000/api',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/api': ''
+            }
+        }
+    },
+    outputDir: '../static/api/',
+    axios: {
+        proxy: true
+    },
     plugins: [
         { src: '~/plugins/croppie.js', ssr: false },
         { src: '~/plugins/scroll.js', ssr: false },

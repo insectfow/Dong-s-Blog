@@ -14,6 +14,7 @@ export const state = () => ({
     middleClassIdx:120,
     issueIdx:0,
     contentIdx:234,
+    checkList: [],
     fileForm: [
         {
             id: 0,
@@ -124,6 +125,22 @@ export const state = () => ({
 })
 
 export const mutations = {
+    setCheckList(state, payload){
+        state.checkList.push(payload);
+        console.log(state.checkList);
+    },
+    removeCheckList(state, payload){
+        const data = [...state.checkList];
+        data.splice(payload, 1);
+        state.checkList = data;
+        console.log(data);
+    },
+    clearCheckList(state, payload){
+        state.checkList = [];
+    },
+    allCheckList(state, payload){
+        state.checkList = payload;
+    },
     getPath(state, data){
         state.path = data;
     },
@@ -156,14 +173,13 @@ export const mutations = {
 }
 export const actions = {
     fetchPath(context, data) {
-        context.commit('getPath', data)
+        context.commit('getPath', data);
     },
     async fetchNews(context, data){
         if(!data){
             data = '비트코인';
         }
         console.log('검색한 데이터:', data);
-       
         await this.$axios.get(`api/search/news?query=${data}`).then( res => {
            context.commit('setNaverNews', res.data, data);
         } ).catch( err => {

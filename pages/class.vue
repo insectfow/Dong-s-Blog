@@ -3,57 +3,37 @@
       <h2>타입에 따른 분류</h2>
       <ul>
           <li v-for="(list, idx) in fileList" :key="idx">
-              <a href="#" @click.prevent="imageFileName(list)">
-                  {{list.title}}
+              <a href="#" @click.prevent="getCheckList(list)" :class="checkOn(list)">
+                  {{list}}
               </a>
           </li>
       </ul>
+      <p>{{checkList}}</p>
+      <button @click="reset" :disabled="this.checkList.length > 0 ? false : true ">reset</button>
+      <button @click="download">download</button>
+      <button @click="allCheck">allCheck</button>
       <p v-if="isResult" v-html="result"></p>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 export default {
     data(){
         return {
             campaignCode: 'r-2349234824',
             fileList: [
-                {
-                    id: 1,
-                    name: '인플루언서 모집동의서 메인 사진',
-                    data: 'campaignCode-g-0',
-                    title: '메인'
-                },
-                {
-                    id: 2,
-                    name: '인플루언서 모집동의서 상세1',
-                    data: 'campaignCode-g-1',
-                    title: '상세1'
-                },
-                {
-                    id: 3,
-                    name: '인플루언서 모집동의서 상세2',
-                    data: 'campaignCode-g-2',
-                    title: '상세2'
-                },
-                {
-                    id: 4,
-                    name: '인플루언서 모집동의서 상세3',
-                    data: 'campaignCode-g-3',
-                    title: '상세3'
-                },
-                {
-                    id: 5,
-                    name: '인플루언서 모집동의서 상세4',
-                    data: 'campaignCode-g-4',
-                    title: '상세4'
-                }
+                1, 2, 3, 4, 5, 6, 7, 8, 9
             ],
             isResult: false,
-            result: ''
+            result: '',
         }
     },
+    computed: {
+        ...mapState(['checkList']),
+    },
     methods: {
+        ...mapMutations(['setCheckList', 'removeCheckList', 'clearCheckList', 'allCheckList']),
         imageFileName(data){
             if (!data) return;
             this.isResult = false;
@@ -64,6 +44,28 @@ export default {
             this.result = re_str;
             this.isResult = true;
             console.log(str, re_str);
+        },
+        getCheckList(value){
+            const data = this.checkList.indexOf(value);
+            console.log(data);
+            if(data > -1){
+                this.removeCheckList(data);
+            } else {
+                this.setCheckList(value);
+            }
+        },
+        reset(){
+            this.clearCheckList();
+        },
+        allCheck(){
+            this.allCheckList(this.fileList);
+        },
+        download(){
+            console.log(this.list);
+        },
+        checkOn(value){
+            const check = this.checkList.filter( (v) => { return v === value});
+            return check.length > 0 ? 'on' : '';
         }
     }
 }
@@ -86,5 +88,9 @@ export default {
     padding: 10px;
     display: block;
     border: 1px solid #000;
+}
+.class-wrap ul li a.on {
+    border: 1px solid red;
+    color: red;
 }
 </style>

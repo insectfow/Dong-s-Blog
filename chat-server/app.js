@@ -3,7 +3,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server, {
     pingTimeout: 1000,
     cors: {
-        origin: " http://192.168.0.91:4000",
+        origin: "*",
         methods: ["GET", "POST"]
       }
 });

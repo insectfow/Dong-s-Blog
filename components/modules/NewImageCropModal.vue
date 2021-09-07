@@ -10,19 +10,17 @@
                 <section class="cropper-area">
                     <div class="img-cropper" style="width: 400px; height:400px;">
                         <vue-cropper
-                            v-if="imgSrc"
+                            v-if="imgSrc && ratio"
                             ref="cropper"
                             :guides="true"
                             :src="imgSrc"
                             preview=".preview"
                             :aspect-ratio="ratio"
-                            :cropBoxMovable="false"
-                            :cropBoxResizable="false"
-                            :toggleDragModeOnDblclick="false"
-                            :scalable="false"
-                            :autoCropArea="1"
-                            :img-style="{ 'width': '400px', 'height': '400px' }"
+                            :dragMode="'move'"
+                            :autoCropArea="0"
                         />
+                            
+                        <!-- :img-style="{ 'width': '400px', 'height': '400px' }" :toggleDragModeOnDblclick="false" :cropBoxResizable="false"  :cropBoxMovable="false" :autoCropArea="1" :scalable="false" -->
                         <a class="no-image"  @click.prevent="showFileChooser" v-else>이미지 업로드 해주세요</a>
                     </div>
                 </section>
@@ -42,6 +40,7 @@
                         </div>
                     </div>
                 </section>
+
                 <section class="action-area">
                     <div class="actions">
                     <input type="color" v-model="color">
@@ -139,6 +138,14 @@
                     >
                         Reset
                     </a>
+                    <a
+                        v-if="cropImg"
+                        href="#"
+                        role="button"
+                        @click.prevent="save"
+                    >
+                        save
+                    </a>
                     </div>
                 </section>
                 </div>
@@ -150,29 +157,51 @@
 <script>
 import '../../assets/css/cropper.css';
 export default {
-    props: ['ratio'],
+    props: ['imgSrc', 'width', 'height', 'fileName'],
     data(){
         return {
-            imgSrc: '',
-            cropImg: '',
-            data: null,
-            number: 0,
-            width: 12,
-            height: 15,
-            color: '#000000'
+            // 기본 백그라운드 컬러
+            color: '#000000',
+
+            // 크롭시 이미지데이터
+            cropImg: null,
+            // 크롭 저장 파일데이터
+            cropFile: null,
+            // 크롭 저장 파일URL데이터
+            cropImageUrl: null
+        }
+    },
+    computed: {
+        // 크롭 비율
+        ratio(){
+            return this.width / this.height;
         }
     },
     methods: {
         close(){
+            console.log('닫기');
+            this.cropImg = null;
+            this.cropFile = null,
+            this.cropImageUrl = null;
+            this.$emit('reset');
             this.$emit('close');
         },
         cropImage() {
+            console.log('crop 버튼 클릭');
             // get image data for post processing, e.g. upload or setting image src
             this.cropImg = this.$refs.cropper.getCroppedCanvas({
-                fillColor: this.color
+                width: this.width,
+                height: this.height,
+                fillColor: this.color,
+                imageSmoothingQuality: 'high'
             }).toDataURL();
+
+            this.cropFile = this.dataURLToBlob(this.cropImg, this.fileName);
+            this.cropImageUrl = URL.createObjectURL(this.cropFile);
+            console.log('crop 데이터 만들기', this.cropFile, this.cropImageUrl);
         },
         flipX() {
+            console.log('flipX 클릭');
             const dom = this.$refs.flipX;
             let scale = dom.getAttribute('data-scale');
             scale = scale ? -scale : -1;
@@ -180,62 +209,78 @@ export default {
             dom.setAttribute('data-scale', scale);
         },
         flipY() {
+            console.log('flipY 클릭');
             const dom = this.$refs.flipY;
             let scale = dom.getAttribute('data-scale');
             scale = scale ? -scale : -1;
             this.$refs.cropper.scaleY(scale);
             dom.setAttribute('data-scale', scale);
         },
-        getCropBoxData() {
-            this.data = JSON.stringify(this.$refs.cropper.getCropBoxData(), null, 4);
-        },
-        getData() {
-            this.data = JSON.stringify(this.$refs.cropper.getData(), null, 4);
-        },
         move(offsetX, offsetY) {
+            console.log('move 클릭');
             this.$refs.cropper.move(offsetX, offsetY);
         },
         reset() {
+            console.log('reset 클릭');
             this.$refs.cropper.reset();
         },
         rotate(deg) {
-        this.$refs.cropper.rotate(deg);
-        },
-        setCropBoxData() {
-        if (!this.data) return;
-        this.$refs.cropper.setCropBoxData(JSON.parse(this.data));
-        },
-        setData() {
-        if (!this.data) return;
-        this.$refs.cropper.setData(JSON.parse(this.data));
-        },
-        setImage(e) {
-            const file = e.target.files[0];
-            if (file.type.indexOf('image/') === -1) {
-                alert('Please select an image file');
-                return;
-            }
-
-            if (typeof FileReader === 'function') {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                this.imgSrc = event.target.result;
-                // rebuild cropperjs with the updated source
-                this.$refs.cropper.replace(event.target.result);
-                };
-                reader.readAsDataURL(file);
-                
-            } else {
-                alert('Sorry, FileReader API not supported');
-            }
-             
+            console.log('rotate 클릭');
+            this.$refs.cropper.rotate(deg);
         },
         showFileChooser() {
+            console.log('이미지 업로드 변경 클릭');
+            this.cropImg = null;
+            this.cropFile = null,
+            this.cropImageUrl = null;
+            this.$emit('reset');
             this.$emit('setImage');
         },
         zoom(percent) {
+            console.log('zoom 클릭');
             this.$refs.cropper.relativeZoom(percent);
         },
+        save(){
+            console.log('save 클릭');
+            let file = [{
+                file: this.cropFile,
+                imgUrl: this.cropImageUrl
+            }]
+            this.$emit('saveImage', file);
+            this.close();
+        },
+        dataURLToBlob(dataURL, name){
+            console.log('dataURLToBlob 클릭');
+            const BASE64_MARKER = ';base64,';
+
+            // base64로 인코딩 되어있지 않을 경우
+            if (dataURL.indexOf(BASE64_MARKER) === -1) {
+                const parts = dataURL.split(',');
+                const contentType = parts[0].split(':')[1];
+                const raw = parts[1];
+                return new Blob([raw], {
+                    type: contentType
+                });
+            }
+            // base64로 인코딩 된 이진데이터일 경우
+            const parts = dataURL.split(BASE64_MARKER);
+            const contentType = parts[0].split(':')[1];
+
+            const raw = window.atob(parts[1]);
+            // atob()는 Base64를 디코딩하는 메서드
+            const rawLength = raw.length;
+            // 부호 없는 1byte 정수 배열을 생성
+            const uInt8Array = new Uint8Array(rawLength); // 길이만 지정된 배열
+            let i = 0;
+            while (i < rawLength) {
+                uInt8Array[i] = raw.charCodeAt(i);
+                i++;
+            }
+            const blob = new Blob([uInt8Array], {
+                type: contentType
+            });
+            return new File([blob], name, { type: contentType });
+        }
   },
 }
 </script>
